@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MovieAppExamenNovember.Views.MovieDescriptionPage"
+             xmlns:viewmodel="clr-namespace:MovieAppExamenNovember.ViewModels"
+             x:DataType="viewmodel:MovieDescriptionPageViewModel"
+             xmlns:model="clr-namespace:MovieAppExamenNovember.Models"
+             Title="{Binding Movie.title}">
+    
+        <ScrollView>
+            <CollectionView ItemsSource="{Binding Movie.characterObjects}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Character">
+
+                        <Grid Padding="10">
+                            <Frame>
+                                <Label Text="{Binding name}" TextColor="Black"/>
+                            </Frame>
+                        </Grid>
+
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+        
+   
+</ContentPage>

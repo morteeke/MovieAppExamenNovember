@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MovieAppExamenNovember.Views.MoviePage"
+             xmlns:model="clr-namespace:MovieAppExamenNovember.Models"
+             xmlns:viewmodel="clr-namespace:MovieAppExamenNovember.ViewModels"
+             x:DataType="viewmodel:MoviePageViewModel"
+             Title="Films">
+    <VerticalStackLayout>
+        <Button Text="Films ophalen" Margin="5" Command="{Binding GetMoviesCommand}"/>
+        <Label Text="Loading API..." IsVisible="{Binding IsLoadingAPI}"/>
+
+
+        <CollectionView ItemsSource="{Binding MovieList}" MinimumHeightRequest="500" SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Movie">
+
+                    <Grid Padding="10">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems SwipeBehaviorOnInvoked="Close">
+                                    <SwipeItemView>
+                                        <Button Text="Delete" 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MoviePageViewModel}}, Path=RemoveMovieCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                        
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Frame HeightRequest="100">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MoviePageViewModel}}, Path=LoadMovieDescriptionPageCommand}"
+                                                      CommandParameter="{Binding .}"/>
+                                    <!--<SwipeGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MoviePageViewModel}}, Path=RemoveMovieCommand}"
+                                                            CommandParameter="{Binding .}"
+                                                            Direction="Left"/>-->
+                                </Frame.GestureRecognizers>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding title}" HorizontalOptions="Center" TextColor="Black"/>
+                                    <Label Text="{Binding director}" HorizontalOptions="Center" TextColor="Black"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </SwipeView>
+                        
+                    </Grid>
+
+                </DataTemplate>
+
+
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+
+        <Button Text="Film toevoegen" Margin="5" Command="{Binding AddMovieCommand}" IsEnabled="{Binding IsNotLoadingAPI}"/>
+    </VerticalStackLayout>
+</ContentPage>
